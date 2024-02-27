@@ -28,11 +28,7 @@ export default function CarFormsPage() {
     <>
       <div className="flex flex-col">
         <CarsTopBar
-          onAdd={() => append(emptyCar)}
-          onOpenModal={() => setModalOpen(true)}
-        />
-        <CarsTopBar
-          className="fixed"
+          className="sticky top-0"
           onAdd={() => append(emptyCar)}
           onOpenModal={() => setModalOpen(true)}
         />
