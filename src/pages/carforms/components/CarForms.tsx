@@ -1,36 +1,18 @@
-import { Stack } from "@mui/material";
 import CarForm from "./CarForm.tsx";
-import {
-  FieldArrayWithId,
-  UseFormRegister,
-  UseFormWatch,
-} from "react-hook-form";
+import { FieldArrayWithId, UseFormRegister } from "react-hook-form";
 import CarsContainer from "../models/CarsContainer.ts";
 
 interface Props {
   fields: FieldArrayWithId<CarsContainer, "cars">[];
-  watch: UseFormWatch<CarsContainer>;
   register: UseFormRegister<CarsContainer>;
 }
 
-export default function CarForms({ fields, watch, register }: Props) {
+export default function CarForms({ fields, register }: Props) {
   return (
-    <Stack
-      direction="column"
-      padding={2}
-      gap={2}
-      width={1}
-      alignItems="center"
-      boxSizing="border-box"
-    >
+    <div className="flex flex-col p-2 gap-2 w-full items-center">
       {fields.map((field, index) => (
-        <CarForm
-          key={field.id}
-          values={watch(`cars.${index}`)}
-          index={index}
-          register={register}
-        />
+        <CarForm key={field.id} index={index} register={register} />
       ))}
-    </Stack>
+    </div>
   );
 }

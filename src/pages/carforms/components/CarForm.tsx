@@ -1,36 +1,35 @@
 import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
-import { Card, Stack, TextField } from "@mui/material";
-import Car from "../models/Car.ts";
 import CarsContainer from "../models/CarsContainer.ts";
+import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { Card } from "@/components/ui/card.tsx";
 
 interface CarFormTextFieldProps {
+  id?: string;
   label: string;
   register: UseFormRegisterReturn<string>;
-  error?: string;
 }
 
-function CarFormTextField({ label, register, error }: CarFormTextFieldProps) {
+function CarFormTextField({ id, label, register }: CarFormTextFieldProps) {
+  const inputId = id ?? `input-${label}`;
+
   return (
-    <TextField
-      variant="filled"
-      error={error != undefined}
-      label={label}
-      {...register}
-      helperText={error}
-    />
+    <div className="flex flex-col w-full gap-2">
+      <Label htmlFor={inputId}>{label}</Label>
+      <Input className="w-full" type={inputId} id="email" {...register} />
+    </div>
   );
 }
 
 interface CarFormProps {
-  values: Car;
   index: number;
   register: UseFormRegister<CarsContainer>;
 }
 
-function CarForm({ values, index, register }: CarFormProps) {
+function CarForm({ index, register }: CarFormProps) {
   return (
-    <Card variant="outlined" sx={{ padding: 2, maxWidth: 600, width: 1 }}>
-      <Stack spacing={2}>
+    <Card className="p-4 max-w-sm w-full">
+      <div className="flex flex-col gap-4">
         <CarFormTextField
           label="Brand"
           register={register(`cars.${index}.brand`)}
@@ -42,13 +41,8 @@ function CarForm({ values, index, register }: CarFormProps) {
         <CarFormTextField
           label="Year"
           register={register(`cars.${index}.year`)}
-          error={
-            !isNaN(parseInt(values.year)) || values.year === ""
-              ? undefined
-              : "Invalid year"
-          }
         />
-      </Stack>
+      </div>
     </Card>
   );
 }

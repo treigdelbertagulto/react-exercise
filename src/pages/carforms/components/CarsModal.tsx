@@ -1,41 +1,49 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from "@mui/material";
 import Car, { isBlank } from "../models/Car.ts";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog.tsx";
+import { P } from "@/components/ui/typography.tsx";
 
 interface Props {
   cars: Car[];
   open: boolean;
-  onClose: () => void;
+  onModalOpenChange: (newOpen: boolean) => void;
 }
 
-export default function CarsModal({ cars, open, onClose }: Props) {
+export default function CarsModal({ cars, open, onModalOpenChange }: Props) {
   console.log(cars.filter((car) => !isBlank(car)));
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Registered Cars</DialogTitle>
-      <DialogContent>
-        {cars.filter((car) => !isBlank(car)).length > 0 ? (
-          cars.map((car) => (
-            <Typography>
-              {car.year} {car.brand} {car.make}
-            </Typography>
-          ))
-        ) : (
-          <Typography>No registered cars</Typography>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} autoFocus>
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <AlertDialog open={open} onOpenChange={onModalOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Registered cars</AlertDialogTitle>
+          <AlertDialogDescription>
+            <P>
+              {cars.filter((car) => !isBlank(car)).length > 0 ? (
+                cars.map((car) => (
+                  <div>
+                    {car.year} {car.brand} {car.make}
+                  </div>
+                ))
+              ) : (
+                <div>No registered cars</div>
+              )}
+            </P>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => onModalOpenChange(false)}>
+            Close
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

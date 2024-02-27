@@ -1,5 +1,4 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { Stack } from "@mui/material";
 import CarForms from "./components/CarForms.tsx";
 import { useState } from "react";
 import CarsTopBar from "./components/CarsTopBar.tsx";
@@ -27,17 +26,22 @@ export default function CarFormsPage() {
 
   return (
     <>
-      <Stack direction="column">
+      <div className="flex flex-col">
         <CarsTopBar
           onAdd={() => append(emptyCar)}
           onOpenModal={() => setModalOpen(true)}
         />
-        <CarForms fields={fields} watch={watch} register={register} />
-      </Stack>
+        <CarsTopBar
+          className="fixed"
+          onAdd={() => append(emptyCar)}
+          onOpenModal={() => setModalOpen(true)}
+        />
+        <CarForms fields={fields} register={register} />
+      </div>
       <CarsModal
         cars={watch("cars")}
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onModalOpenChange={setModalOpen}
       />
     </>
   );

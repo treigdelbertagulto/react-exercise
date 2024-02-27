@@ -1,29 +1,26 @@
-import { IconButton, Stack, Typography } from "@mui/material";
+import { H4 } from "@/components/ui/typography.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { AddTwoTone, LaunchTwoTone } from "@mui/icons-material";
+import { cn } from "@/lib/utils.ts";
 
 interface Props {
+  className?: string;
   onAdd: () => void;
   onOpenModal: () => void;
 }
 
-export default function CarsTopBar({ onAdd, onOpenModal }: Props) {
+export default function CarsTopBar({ className, onAdd, onOpenModal }: Props) {
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      width="1"
-      padding={2}
-      boxSizing="border-box"
+    <div
+      className={cn("flex items-center w-full p-4 gap-2 bg-white", className)}
     >
-      <Typography variant="h6" sx={{ width: 1 }}>
-        Cars
-      </Typography>
-      <IconButton onClick={onOpenModal}>
+      <H4 className="w-full">Cars</H4>
+      <Button variant="outline" size="icon" onClick={onOpenModal}>
         <LaunchTwoTone />
-      </IconButton>
-      <IconButton onClick={onAdd}>
+      </Button>
+      <Button variant="default" size="icon" onClick={onAdd}>
         <AddTwoTone />
-      </IconButton>
-    </Stack>
+      </Button>
+    </div>
   );
 }
