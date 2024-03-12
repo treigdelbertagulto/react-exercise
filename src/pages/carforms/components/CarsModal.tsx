@@ -1,4 +1,4 @@
-import Car, { isBlank } from "../models/Car.ts";
+import { isBlank } from "../models/Car.ts";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,18 +9,22 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog.tsx";
 import { P } from "@/components/ui/typography.tsx";
+import { useContext } from "react";
+import {
+  CarsFormContext,
+  ModalOpenContext,
+} from "@/pages/carforms/CarFormsPage.tsx";
 
-interface Props {
-  cars: Car[];
-  open: boolean;
-  onModalOpenChange: (newOpen: boolean) => void;
-}
+export default function CarsModal() {
+  const { watch } = useContext(CarsFormContext)!;
+  const [open, setOpen] = useContext(ModalOpenContext)!;
+  const cars = watch("cars");
+  const closeModal = () => setOpen(false);
 
-export default function CarsModal({ cars, open, onModalOpenChange }: Props) {
   console.log(cars.filter((car) => !isBlank(car)));
 
   return (
-    <AlertDialog open={open} onOpenChange={onModalOpenChange}>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Registered cars</AlertDialogTitle>
@@ -39,9 +43,7 @@ export default function CarsModal({ cars, open, onModalOpenChange }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={() => onModalOpenChange(false)}>
-            Close
-          </AlertDialogAction>
+          <AlertDialogAction onClick={closeModal}>Close</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
